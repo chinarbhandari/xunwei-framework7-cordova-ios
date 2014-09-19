@@ -1,0 +1,33 @@
+<!-- We don't need full layout here, because this page will be parsed with Ajax-->
+<!-- Top Navbar-->
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="center sliding">搜索</div>
+    </div>
+</div>
+<div class="pages">
+    <!-- Page, data-page contains page name-->
+    <div data-page="search" class="page no-swipeback">
+        <!-- Search bar -->
+        <form class="searchbar" id="search-form">
+            <div class="searchbar-input">
+                <input class="search-input" name="q" type="search" placeholder="餐馆名、区域、邮编、菜系" autocomplete="off">
+                <button class="search-submit" type="submit" style="width:1px; height: 1px; background: transparent; border: 0;"></button>
+                <a href="#" class="searchbar-clear"></a>
+            </div>
+            <a href="#" class="searchbar-cancel">取消</a>
+        </form>
+
+        <!-- Search bar overlay-->
+        <div class="searchbar-overlay"></div>
+
+        <!-- Page content -->
+        <div class="page-content">
+            <div class="content-block">
+                <div class="pull-center">
+                    <i class="ion-ios7-reloading"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    
+    <title>Xunwei</title>
+
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.min.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+    <!-- ionicon -->
+    <link rel="stylesheet" href="css/ionicons.min.css">
+    <!-- zepto -->
+    <script type="text/javascript" src="js/zepto.min.js"></script>
+    <!-- mapbox -->
+    <script src='js/mapbox.js'></script>
+    <link href='css/mapbox.css' rel='stylesheet' />
+</head>
+
+<body class="theme-orange">
+    <div class="statusbar-overlay"></div>
+    <!-- Views-->
+    <div class="views">
+        <!-- Your main view, should have "view-main" class-->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <!-- We have home navbar without left link-->
+                    <div class="center sliding">
+                        <a href="about.html" class="link">寻味</a>
+                    </div>
+                    <div class="right">
+                        <!-- Right link contains only icon - additional "icon-only" class--><a href="search.html" class="link icon-only no-animation"><i class="ion-ios7-search-strong"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+            <div class="pages navbar-through toolbar-through">
+                <!-- Page, data-page contains page name-->
+                <div data-page="index" class="page no-swipeback">
+                    <!-- Scrollable page content-->
+                    <div class="page-content">
+                        <div class="content-block">
+                            <div class="content-block">
+                                <div class="pull-center">
+                                    <i class="ion-ios7-reloading"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom Toolbar-->
+            <div class="toolbar tabbar tabbar-labels toolbar-dark">
+                <div class="toolbar-inner">
+                    <a href="home.html" class="tab-home tab-link no-animation active">
+                        <i class="ion-ios7-home-outline"></i>
+                        <span class="tabbar-label">首页</span>
+                    </a>
+                    <a href="search.html" class="tab-search tab-link no-animation">
+                        <i class="ion-ios7-search"></i>
+                        <span class="tabbar-label">搜索</span>
+                    </a>
+                    <a href="nearby.html" class="tab-nearby tab-link no-animation">
+                        <i class="ion-ios7-location-outline"></i>
+                        <span class="tabbar-label">附近</span>
+                    </a>
+                    <a href="profile.html" class="tab-profile tab-link no-animation">
+                        <i class="ion-ios7-person-outline"></i>
+                        <span class="tabbar-label">个人</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Restaurant Map Popup -->
+    <div class="popup popup-restaurant-map">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="left">
+                    <a href="#" class="close-popup">关闭</a>
+                </div>
+            </div>
+        </div>
+        <div id="map-detail"></div>
+        <div class="map-footer">
+            <!-- map popup template -->
+            <script id="map-popup-template" type="text/template">
+                <div class="content-block">
+                {{#restaurant}}
+                    <h1>{{name}} {{name2}}</h1>
+                    <p><i class="ion-ios7-location"></i> {{street1}} {{street2}} {{city}} {{postcode}}</p>
+                    <p><i class="ion-ios7-telephone"></i> {{phone}}</p>
+                {{/restaurant}}
+                </div>
+            </script>
+        </div>
+    </div>
+
+
+
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="js/framework7.min.js"></script>
+    <!-- Path to your app js-->
+    <script type="text/javascript" src="js/my-app.js"></script>
+    <!-- initialize -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+    app.initialize();
+    </script>
+
+    <!-- templates -->
+    <!-- home template -->
+    <script id="home-template" type="text/template">
+        <div class="pull-to-refresh-layer">
+            <div class="preloader">
+                <i class="ion-ios7-reloading"></i>
+            </div>
+            <div class="pull-to-refresh-arrow"></div>
+        </div>
+        <div class="slider-container slider-index">
+            <div class="slider-pagination"></div>
+            <div class="slider-wrapper">
+            {{#each hot_restaurant}}
+                <div class="slider-slide" style="background-image:url('http://xun-wei.com/static/media/{{photo}}')">
+                    <a href="restaurant-detail.html?id={{id}}">
+                        <div class="slider-slide-overlay">
+                            <div class="slider-slide-overlay-text">
+                                <h1>{{text}}</h1>
+                                <h2>{{name}} {{name2}}</h2>
+                            </div>
+                            <span><i class="ion-ios7-arrow-right"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            {{/each}}
+            </div>
+        </div>
+        <div class="content-block-title">
+            热门推荐
+        </div>
+        <div class="content-block badge-block">
+            {{#each badge}}
+            <div class="col-50 panel-home">
+                <a href="restaurant-list.html?q={{name}}">
+                    <div class="panel-top">
+                        <p class="color-grey">{{description}}</p>
+                    </div>
+                    <div class="panel-bottom">
+                        <div class="row">
+                            <div class="col-50" style="background-image:url('http://xun-wei.com/static/media/{{photo1}}')">
+                            </div>
+                            <div class="col-50" style="background-image:url('http://xun-wei.com/static/media/{{photo2}}')">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{/each}}
+        </div>
+        <div class="pull-center version">
+            <a href="about.html" class="link">&copy; 寻味 xun-wei.com 内测版 </a> 
+        </div>
+    </script>
+
+    <!-- search template -->
+    <script id="search-template" type="text/template">
+        <div class="content-block-title">
+            热门搜索
+        </div>
+        <div class="list-block hot-search-list">
+            <ul>
+            {{#each subcategory}}
+            <a href="restaurant-list.html?q={{name}}">
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">{{name}}</div>
+                    </div>
+                </li>
+            </a>
+            {{/each}}
+            </ul>
+        </div>
+    </script>
+
+    <!-- restaurant list template -->
+    <script id="restaurant-list-template" type="text/template">
+    <div class="pull-to-refresh-layer">
+        <div class="preloader">
+            <i class="ion-ios7-reloading"></i>
+        </div>
+        <div class="pull-to-refresh-arrow"></div>
+    </div>
+    <div class="list-block media-list restaurant-list">
+        <ul>
+            {{#each restaurant}}
+            <li>
+                <a href="restaurant-detail.html?id={{id}}" class="item-link item-content color-orange">
+                    <div class="item-media">
+                        <img class="restaurant-list-img" src="http://xun-wei.com/static/media/{{photo}}">
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title-row">
+                            <div class="item-title">{{name}} {{name2}}</div>
+                        </div>
+                        <div class="item-subtitle">
+                            <span class="label label-rounded label-success">{{star}}</span>
+                        </div>
+                        <div class="item-subtitle item-subtext color-grey">{{#subcategory}}{{name}} {{/subcategory}}</div>
+                        <div class="item-text">{{description}}</div>
+                    </div>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    </script>
+
+    <!-- restaurant detail template -->
+    <script id="restaurant-detail-template" type="text/template">
+    {{#restaurant}}
+    <div class="caption-media" style="background-image:url('http://xun-wei.com/static/media/{{photo}}')">
+        <div class="caption-media-overlay">
+            <div class="caption-media-overlay-text">
+                <h1>{{name}}</h1>
+                <h2>
+                    {{#each subcategory}} {{name}} {{/each}}
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="list-block color-grey">
+        <ul>
+            <a href="#" data-popup=".popup-restaurant-map" class="open-popup item-link">
+                <li class="item-content">
+                    <div class="item-media"><i class="ion-location"></i>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">{{street1}} {{street2}} {{city}}</div>
+                    </div>
+                </li>
+            </a>
+            <a href="#" class="item-link">
+                <li class="item-content">
+                    <div class="item-media"><i class="ion-iphone"></i>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">{{phone}}</div>
+                    </div>
+                </li>
+            </a>
+            <a href="#" class="item-link">
+                <li class="item-content">
+                    <div class="item-media"><i class="ion-home"></i>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">{{website}}</div>
+                    </div>
+                </li>
+            </a>
+            <a href="#" class="item-link">
+                <li class="item-content">
+                    <div class="item-media"><i class="ion-calculator"></i>
+                    </div>
+                    <div class="item-inner">
+                        <div class="item-title">人均消费 {{price}}</div>
+                    </div>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="content-block-title">餐馆简介</div>
+    <div class="content-block">
+        <div class="content-block-inner color-grey">{{description}}</div>
+    </div>
+
+    <div class="content-block-title">最新评论</div>
+    <div class="list-block media-list review-list">
+        <ul>{{#review}}
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><img src="http://xun-wei.com/static/media/{{avatar}}"></div> 
+                    <div class="item-inner">
+                        <div class="item-title-row">
+                            <div class="item-title color-orange">{{user}}</div>
+                            <div class="item-after">{{date}}</div>
+                        </div>
+                        <div class="item-text">{{review}}</div>
+                    </div>
+                </a>
+            </li>{{/review}}
+        </ul>
+    </div>
+
+
+
+    {{/restaurant}}
+    </script>
+
+    <!-- map template -->
+    <script id="map-template" type="text/template">
+        <div id="map"></div>
+        <div class="slider-container slider-map">
+        <div class="slider-wrapper">
+        {{#each restaurant}}
+            <div class="slider-slide"> 
+                <a href="restaurant-detail.html?id={{id}}">
+                    <div class="slider-block"><img src="http://xun-wei.com/static/media/{{photo}}" />
+                        <h1>{{name}}</h1>
+                        <p>{{street1}} {{street2}}</p>
+                    </div> 
+                </a>
+            </div>
+        {{/each}}
+        </div>
+        </div>
+    </script>
+
+    <!-- nearby template -->
+    <script id="nearby-template" type="text/template">
+        {{#subcategory}}
+        <div class="content-block">
+            <a href="restaurant-list.html?q={{name}}&lat={{../lat}}&lng={{../lng}}">
+                <div class="well" style="background-image:url('http://xun-wei.com/static/media/{{photo}}')">
+                    <div class="well-overlay">
+                    </div>
+                    <h1>{{name}}</h1>
+                    <h2><i class="ion-ios7-arrow-right"></i>
+                    </h2>
+                </div>
+                <div class="well-footer">
+                    <p>搜索到{{num}}家餐馆</p>
+                </div>
+            </a>
+        </div>
+        {{/subcategory}}
+    </script>
+
+    <!-- profile template -->
+    <script id="profile-template" type="text/template">
+    {{#profile}}
+        <div class="caption-media-blur-container">
+            <div class="caption-media-blur" style="background-image:url('http://xun-wei.com/static/media/{{avatar}}')">
+                <div class="caption-media-blur-dark"></div>
+            </div>
+            <div class="caption-media-avatar-block">
+                <img src="http://xun-wei.com/static/media/{{avatar}}" />
+            </div>
+        </div>
+        <div class="content-block pull-center profile-num-block">
+            <h2>{{nickname}}</h2>
+            <div class="row">
+                <div class="col-25 border-right">想吃<br><a href="#">{{wanttogo_num}}</a></div>
+                <div class="col-25 border-right">吃过<br><a href="#">{{eaten_num}}</a></div>
+                <div class="col-25 border-right">点评<br><a href="#">{{review_num}}</a></div>
+                <div class="col-25">食记<br><a href="#">{{journal_num}}</a></div>
+            </div> 
+        </div>
+         
+    {{/profile}}
+    </script>
+</body>
+
+</html>
